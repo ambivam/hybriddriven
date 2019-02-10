@@ -1,0 +1,38 @@
+Feature: 4.Verify services&Bu functionality
+
+  @cmsautomation
+  Scenario Outline: Verify the services and its responses by giving Document Id/Json
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    And Traverse to Services Page and validate "<solution_card>"
+    And Click on IngestDocumentService and navigate to Test tab, Upload a file using "<datapath>" and get Document Id and return to services list
+    And Click on service and navaigate to Test tab, provide applicable DocumentId or Json and Test it and return to services list "<keyStatus>"
+      | servicename                     |
+      | Convert Document                |
+      | DeSkew Document                 |
+      | Extract Document Hocr           |
+      | Extract Document Metadata       |
+      | Extract page groups in document |
+      | Classify Document               |
+    And Logout the application
+    And Login with "<bu_username>" and "<bu_password>"
+    When Click on solution card "<solution_card>"
+    And Click on the queue
+      | queue_name          |
+      | uncategorized queue |
+    And Verify for the classified document; if it exists assign the document to business user
+    And Logout the application
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    And Traverse to Services Page and validate "<solution_card>"
+    And Click on service and navaigate to Test tab, provide applicable DocumentId or Json and Test it and return to services list "<keyStatus>"
+      | servicename               |
+      | Extract Document Elements |
+      | Extract Document Text     |
+      | Process Document Rules    |
+      | Extract Document Entities |
+#    And switch with buuser and provide the feedback on extracted documents
+
+    Examples: 
+      | username | password | datapath                                         | keyStatus | solution_card | bu_username | bu_password |
+      | morganse | pass     | /src/test/resources/data/cms/Automation_test.pdf | status    | dm sol 02    | morganbu    | pass        |

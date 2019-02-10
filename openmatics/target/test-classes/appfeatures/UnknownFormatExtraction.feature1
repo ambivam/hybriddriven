@@ -1,0 +1,24 @@
+Feature: Unknown Format Extraction
+
+	@throughsources
+  Scenario Outline: creating unknown format extraction
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    Then User is on solution list page and Clicks on solution card "<solution_Card_name>" and navigates to Dashboard page
+    When user is on Dashboard page and clicks on Domain module and navigates to Domain page
+    Then user is on domain page and  clicks on Unknown Format Extraction card and navigates to unknown format extraction page
+    When user is on unknown format extraction and deletes if template as "<templateName>" exists and clicks on create new templates button
+    Then user is on templates page and provides "<templateName>" and "<templatedescription>" and clicks on one of the radio button
+    And clicks on Next button
+    Then user selects domain object as "<domainObjName>" in template section and clicks on save button
+    And clicks on Threshold menu and updates some values in threshold section and verifies whether the values are updated
+      | labels              | entityConfidencescore | documentThreshold |
+      | Page Classification |                    50 |                60 |
+      | Post Processing     |                    70 |                40 |
+      | Annotation          |                    60 |                50 |
+      | Extraction          |                    40 |                90 |
+    Then user clicks on Test menu and click on upload documents link anc verify whether file got uploaded successfully "<fileUpload>"
+
+    Examples: 
+      | username     | password | solution_Card_name | domainObjName        | templateName    | templatedescription | fileUpload                                               |
+      | bddtest_se   | pass     | TestBDD            |     claim            | BddTestTemplate | Bdd test template   | /src/test/resources/data/unknownformatextract/resume.pdf |

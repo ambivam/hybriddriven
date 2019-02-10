@@ -1,0 +1,46 @@
+Feature: 1.Creating solutions and Users
+  Descriprion: The purpose of this feature is Creating solutions For The Users Solution Engineer, Business User and Supervisor
+
+  @cmsautomation
+  Scenario Outline: Creating Solution and assign to Users
+    Given Launch the Application Url
+    When User provide credentials "<Username>" and "<Password>"
+    Then Delete solution card "<solution_Card_name>" If already exists
+    Then Delete user If already exists
+      | deleteUser  |
+      | bddtest1_se |
+      | bddtest1_bu |
+      | bddtest1_sv |
+    When Creates a new Solution "<solution_Card_name>" and "<description>"
+    When Create New User
+      | username    | password | ConfirmPass | Role | Solution |
+      | bddtest1_se | pass     | pass        | se   | TestBDD1 |
+      | bddtest1_bu | pass     | pass        | bu   | TestBDD1 |
+      | bddtest1_sv | pass     | pass        | sv   | TestBDD1 |
+    Then Log out from the Admin Page.
+
+    Examples: 
+      | Username | Password | solution_Card_name | description   |
+      | admin    | pass     | TestBDD1           | Test with BDD |
+
+  #@throughsources
+  Scenario Outline: Creating Solution and assign to Users
+    Given Launch the Application Url
+    When User provide credentials "<Username>" and "<Password>"
+    Then Delete solution card "<solution_Card_name>" If already exists
+    Then Delete user If already exists
+      | deleteUser   |
+      | dmsolauto2_se |
+      | dmsolauto2_bu |
+      | dmsolauto2_sv |
+    When Creates a new Solution "<solution_Card_name>" and "<description>"
+    When Create New User
+      | username     | password | ConfirmPass | Role | Solution  |
+      | dmsolauto2_se | pass     | pass        | se   | dmsolauto2 |
+      | dmsolauto2_bu | pass     | pass        | bu   | dmsolauto2 |
+      | dmsolauto2_sv | pass     | pass        | sv   | dmsolauto2 |
+    Then Log out from the Admin Page.
+
+    Examples: 
+      | Username | Password | solution_Card_name | description        |
+      | admin    | pass     | dmsolauto2          | ingesting thru src |

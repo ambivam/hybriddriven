@@ -1,0 +1,25 @@
+@cmsautomation, @throughsources
+Feature: 3.Loginto Busines user for review the uploaded documents.
+
+  Scenario Outline: Review Uploade documents in Various Queues
+    And Login with "<bu_username>" and "<bu_password>"
+    When Click on solution card "<solution_card>"
+    And Click on the queue
+      | queue_name          |
+      | uncategorized queue |
+    And Verify for the classified document; if it exists assign the document to business user "<searchField>"
+    And Logout the application
+
+    #Given User is on login page
+    #When user provides valid credentials "<username>" and "<password>"
+    #And Traverse to Services Page and validate "<solution_card>"
+    #And Click on service and navaigate to Test tab, provide applicable DocumentId or Json and Test it and return to services list "<keyStatus>"
+    #| servicename               |
+    #| Extract Document Elements |
+    #| Extract Document Text     |
+    #| Process Document Rules    |
+    #| Extract Document Entities |
+    #    And switch with buuser and provide the feedback on extracted documents
+    Examples: 
+      | username    | password | datapath                                         | keyStatus | solution_card | bu_username  | bu_password | searchField |
+      | bddtest2_bu | pass     | /src/test/resources/data/cms/Automation_test.pdf | status    | dmsol07     | morgan2 | pass        | autotest5   |

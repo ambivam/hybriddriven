@@ -1,0 +1,29 @@
+Feature: Create Models by importing different datasets
+
+  Scenario Outline: Import Data set with different data format
+    Given User must be in login page
+    And Provide Solution Engineer "<username>" and "<password>"
+    And Moves to Adapt Section for import dataset
+    When User in Import Dataset window
+    Then Enter "<datasetname>" and "<description>" and "<dataformat>" and "<datapath>"
+    And Save Import dataset
+
+    Examples: 
+      | username   | password | datasetname  | description       | dataformat | datapath                                                  |
+      | bddtest_se | pass     | reg csv data | reg csv data desc | csv        | /src/test/resources/data/adaptsection/Test/regression.csv |
+
+  Scenario Outline: Create Model with Platform and model type regression
+    Given User must be in login page
+    And Provide Solution Engineer "<username>" and "<password>"
+    And Moves to Adapt Section for import dataset
+    Given User must be in adapt section page
+    And Navigate to Create New Ensembels page
+    When User in New Model Page
+    Then Provide "<modelname>" and "<description>"
+    And Select model format
+    And Provide "<modeltype>" and "<dataset>" and "<targetcolumn>"
+    And Save Model
+
+    Examples: 
+      | username   | password | modelname        | description           | modeltype  | dataset | targetcolumn |
+      | bddtest_se | pass     | Model_regression | Model_regression_desc | regression | zipdata | label        |

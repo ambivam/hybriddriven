@@ -1,0 +1,21 @@
+Feature: 3.Creating Queues and Assigning to Supervisor and Agents
+
+  @cmsautomation
+  Scenario Outline: Creating Queues
+    Given Launch the Application.
+    When User provide credentials as "<username>" and "<password>"
+    Then Delete Queue "<queuesolution>" If already exists
+    When Create Queues
+      | QueueName                   | Solution | State                       | DocumentType | SuperVisor | Agents     |
+      | Error                       | TestBDD1  | Error                       | CMS          | bddtest1_sv | bddtest1_bu |
+      | Reviewed                    | TestBDD1  | Reviewed                    | CMS          | bddtest1_sv | bddtest1_bu |
+      | Post Processing             | TestBDD1  | Post Processing             | CMS          | bddtest1_sv | bddtest1_bu |
+      | Annotation & Entity Linking | TestBDD1  | Annotation & Entity Linking | CMS          | bddtest1_sv | bddtest1_bu |
+      | Extraction                  | TestBDD1  | Extraction                  | CMS          | bddtest1_sv | bddtest1_bu |
+      | Needs Classification        | TestBDD1  | Needs Classification        | CMS          | bddtest1_sv | bddtest1_bu |
+      | Processing                  | TestBDD1  | Processing                  | CMS          | bddtest1_sv | bddtest1_bu |
+    Then Log out from Super Admin
+
+    Examples: 
+      | username | password | queuesolution |
+      | admin    | pass     | TestBDD1      |

@@ -1,0 +1,24 @@
+Feature: 4.Verify services functionality
+
+  @cmsautomation
+  Scenario Outline: Verify the services and its responses by giving Document Id/Json
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    And Traverse to Services Page and validate "<solutionname>"
+    And Click on IngestDocumentService and navigate to Test tab, Upload a file using "<datapath>" and get Document Id and return to services list
+    And Click on service and navaigate to Test tab, provide applicable DocumentId or Json and Test it and return to services list "<keyStatus>"
+      | servicename                     |
+      | Convert Document                |
+      | DeSkew Document                 |
+      | Extract Document Hocr           |
+      | Extract Document Metadata       |
+      | Extract page groups in document |
+      | Classify Document               |
+      | Extract Document Elements       |
+      | Extract Document Text           |
+      | Process Document Rules          |
+      | Extract Document Entities       |
+
+    Examples: 
+      | username | password | datapath                                         | keyStatus | solutionname    |
+      | bddtest1_se  | pass     | /src/test/resources/data/cms/Automation_test.pdf | status    | TestBDD1 |

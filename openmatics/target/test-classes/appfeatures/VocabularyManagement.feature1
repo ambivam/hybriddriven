@@ -1,0 +1,15 @@
+Feature: Verify corpus functionality
+
+  Scenario Outline: Verify corpus functionality
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    And Click on Solution "<solutionname>"
+    And Click on Domain link
+    And Click on Vocabulary Management card
+    And Select the type Corpus, upload a file "<datapath>", enter the type tag "<typeTag>" and Click upload
+
+    Examples: 
+      | username | password | datapath                                                   | typeTag  | solutionname |
+      | morganse | pass     | /src/test/resources/data/domainModule/vocabulary/names.txt | contact_details.name | dm sol 01    |
+
+      

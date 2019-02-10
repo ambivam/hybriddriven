@@ -1,0 +1,89 @@
+Feature: 2.Importing Domain Objects for the solution
+
+  Scenario Outline: Creating domain object for solution
+    When user is on Domain object creation page and clicks on New Domain Object link "<domainObjName>"
+    Then a menu slides with the properties section and user provides domain details to it and clicks on save button
+      | domainObjName        | domainNERType | domainCardinality | domainSynonym |
+      | automationtestdomain | PERSON        | test              | Test          |
+    And verifies that domain object is created successfully
+    When user clicks on attribute link and provides entity details to it and clicks on save button
+      | domainObjName        | entitydataType | entityType    | entityNERType | entitySynonym | entityName        |
+      | automationtestdomain | Entity         | Create Entity | PERSON        | Test          | BddPatientDetails |
+      | automationtestdomain | Entity         | Create Entity | NORP          | Test          | BddVitals         |
+    And verifies that entity attribute is created successfully
+    When user clicks on attribute link and provides attribute details to it and clicks on save button
+      | domainObjName        | attrEntityName | attrDataType | attrNERType | attrSynonym | entityName        |
+      | automationtestdomain | mobile_number  | String       | PERSON      | Test        | BddPatientDetails |
+    Then Apply a validation rule-test by clicking on the specific attribute "<domainObjName>" and "<entityType>" and "<attributename>"
+      | RuleNameTxt                        | ValidationMsg                     | IfFunction    | IfCondition | ExpectedValue | TestValue  |
+      | Mobnumvalidationwithchars          | Mobile Number should be 10 digits | Length(value) | Equals      |            10 | venugopalg |
+      | Mobilenumbervalidationwithchars<10 | Mobile Number should be 10 digits | Length(value) | Equals      |            10 | venugopal  |
+      | Mobilenumbervalidationwithdigits   | Mobile Number should be 10 digits | Length(value) | Equals      |            10 | 9581075263 |
+    And verifies that attribute object is created successfully
+
+    Examples: 
+      | domainObjName        | entityType        | attributename |
+      | automationtestdomain | BddPatientDetails | mobile_number |
+
+  @cmsautomation
+  Scenario Outline: Importing domain object for solution
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    Then user is on solution list page and gets solutionId
+    Then User is on solution list page and Clicks on solution card "<solution_Card_name>" and navigates to Dashboard page
+    When user is on Dashboard page and clicks on Domain module and navigates to Domain page
+    When user is on Domain page and clicks on domain objects configuration module and navigates to domain object creation page
+    When user is on Domain object creation page and deletes domain Object if exists "<domainObjName>" clicks on import link and provides "<filePath>" and "<Upload_desc>" to create new domain Object
+
+    Examples: 
+      | username    | password | solution_Card_name | domainObjName | entityType        | attributename | filePath                                                 | Upload_desc |
+      | bddtest1_se | pass     | TestBDD1           | claim         | BddPatientDetails | mobile_number | /src/test/resources/data/domainObj/CMS_Domain_Objects.js | Test        |
+
+  @throughsources
+  Scenario Outline: Importing domain object for solution
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    Then user is on solution list page and gets solutionId
+    Then User is on solution list page and Clicks on solution card "<solution_Card_name>" and navigates to Dashboard page
+    When user is on Dashboard page and clicks on Domain module and navigates to Domain page
+    When user is on Domain page and clicks on domain objects configuration module and navigates to domain object creation page
+    When user is on Domain object creation page and deletes domain Object if exists "<domainObjName>" clicks on import link and provides "<filePathdomain>" and "<Upload_desc>" to create new domain Object
+    When user is on Dashboard page and clicks on Domain module and navigates to Domain page
+    And Click on Vocabulary Management card
+    And Select the type Corpus, upload a file "<datapath>", enter the type tag "<typeTag>" and Click upload
+    And Traverse to Services Page and validate "<solutionname>"
+    When user is on Dashboard page and clicks on Domain module and navigates to Domain page
+    Then user is on domain page and  clicks on Unknown Format Extraction card and navigates to unknown format extraction page
+    When user is on unknown format extraction and deletes if template as "<templateName>" exists and clicks on create new templates button
+    Then user is on templates page and provides "<templateName>" and "<templatedescription>" and clicks on one of the radio button
+    And clicks on Next button
+    Then user selects domain object as "<domainObjName>" in template section and clicks on save button
+    Then Ingesting a File "<filepath>"
+
+    Examples: 
+      | username     | password | solution_Card_name | domainObjName | entityType        | attributename | filePathdomain                                 | Upload_desc | datapath                                                   | typeTag               | filepath                                          |templateName    | templatedescription |
+      | dmsolauto2_se | pass     | dmsolauto2          | resume        | BddPatientDetails | mobile_number | /src/test/resources/data/domainObj/resume.json | resume      | /src/test/resources/data/domainModule/vocabulary/names.txt | personal_details.name | /src/test/resources/data/domainObj/autotest5.docx |BddTestTemplate | Bdd test template   |
+
+  #@throughsources
+  Scenario Outline: Verify corpus functionality
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    And Click on Solution "<solutionname>"
+    And Click on Domain link
+    And Click on Vocabulary Management card
+    And Select the type Corpus, upload a file "<datapath>", enter the type tag "<typeTag>" and Click upload
+
+    Examples: 
+      | username    | password | datapath                                                   | typeTag               | solutionname |
+      | autotest_se | pass     | /src/test/resources/data/domainModule/vocabulary/names.txt | personal_details.name | ingestsrcsol |
+
+  #@throughsources
+  Scenario Outline: Ingest File
+    Given User is on login page
+    When user provides valid credentials "<username>" and "<password>"
+    Then User is on solution list page and Clicks on solution card "<solution_Card_name>" and navigates to Dashboard page
+    Then Ingesting a File "<filepath>"
+
+    Examples: 
+      | username | password | filepath                                          | solution_Card_name |
+      | morgan1  | pass     | /src/test/resources/data/domainObj/autotest4.docx | dmsol07            |
