@@ -1,6 +1,13 @@
 package utilities;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import dataproviders.ConfigFileReader;
 import io.restassured.RestAssured;
@@ -50,6 +57,28 @@ public class RestAssuredUtilities {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	static public JSONObject getJsonFromFile(String fileName) {
+		String path = System.getProperty("user.dir")+ConfigFileReader.getConfigFileReader().getJsonFolder()+fileName;
+		System.out.println("The path is : "+path);
+		File file = new File(path);
+		JSONObject jsonobj = null;
+		JSONParser jsonparser = new JSONParser();
+		try {
+			jsonobj = (JSONObject)jsonparser.parse(new FileReader(file));	
+			
+			//jsonobj.put("name", "Bhavya");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		return jsonobj;
+	}
+	
 	static public int getStatusCode(Response response) {		
 		return response.getStatusCode();				
 	}
@@ -65,14 +94,24 @@ public class RestAssuredUtilities {
 		
 	}
 	
-	public static void main(String a[]) {		
-		
-		System.out.println(RestAssuredUtilities.getStatusCode(RestAssuredUtilities.getResponse("users/2")));
-		
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		
-		System.out.println(RestAssuredUtilities.getStatusCode(RestAssuredUtilities.post("users","TempPost.json")));
-		
-	}
+	/*
+	 * public static void main(String a[]) {
+	 * 
+	 * System.out.println(RestAssuredUtilities.getStatusCode(RestAssuredUtilities.
+	 * getResponse("users/2")));
+	 * 
+	 * System.out.println(
+	 * "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+	 * );
+	 * 
+	 * System.out.println(RestAssuredUtilities.getStatusCode(RestAssuredUtilities.
+	 * post("users","TempPost.json")));
+	 * 
+	 * 
+	 * System.out.println("Get Json name From file is : "+getJsonFromFile(
+	 * "TempPost.json").get("name"));
+	 * 
+	 * }
+	 */
 
 }

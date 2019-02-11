@@ -103,18 +103,81 @@ public class DatabaseConnection {
 		return list;
 	}
 	
-	
-	public static void main(String ar[]) throws Exception {
-		
-		List<String> sb = getSelectQueryResult(getConnection("mysql"), "select * from members");
-		
-		for(String arrList : sb) {
-			System.out.println(arrList);
-		}
-		
-		//System.out.println(sb.toString());
-		//System.out.println(sb.toString().indexOf("Ambica 32"));
-			
-	}
 
+	public static boolean insertQuery(Connection con,String query) throws Exception {
+		Statement stmt = null;
+		int rowsUpdated = 0;
+		boolean result = false;
+		try {
+			
+			stmt = con.createStatement();
+			rowsUpdated = stmt.executeUpdate(query);
+			System.out.println("Rows updated are : "+rowsUpdated);
+			
+			if(rowsUpdated > 0) {
+				result = true;
+			}
+			
+			
+		}catch(Exception e) {			
+		}
+		finally {			
+			if(stmt!=null) {			
+				stmt.close();			
+			}
+		}
+		return result;
+	}
+	
+	
+	public static boolean updateQuery(Connection con,String query) throws Exception {
+		Statement stmt = null;
+		int rowsUpdated = 0;
+		boolean result = false;
+		try {
+			
+			stmt = con.createStatement();
+			rowsUpdated = stmt.executeUpdate(query);
+			System.out.println("Rows updated are : "+rowsUpdated);
+			
+			if(rowsUpdated > 0) {
+				result = true;
+			}
+			
+			
+		}catch(Exception e) {			
+		}
+		finally {			
+			if(stmt!=null) {			
+				stmt.close();			
+			}
+		}
+		return result;
+	}
+	
+	
+	/*
+	 * public static void main(String ar[]) throws Exception {
+	 * 
+	 * List<String> sb = getSelectQueryResult(getConnection("mysql"),
+	 * "select * from members");
+	 * 
+	 * for(String arrList : sb) { System.out.println(arrList); }
+	 * 
+	 * //System.out.println(sb.toString());
+	 * //System.out.println(sb.toString().indexOf("Ambica 32"));
+	 * 
+	 * //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+	 * 
+	 * String insert = "UPDATE members SET age = 3 WHERE NAME = 'Takshu'";
+	 * 
+	 * System.out.println("Inserted results status is : "+
+	 * updateQuery(getConnection("mysql"),insert));
+	 * 
+	 * List<String> sb2 = getSelectQueryResult(getConnection("mysql"),
+	 * "select * from members");
+	 * 
+	 * for(String arrList : sb2) { System.out.println(arrList); } }
+	 * 
+	 */
 }
