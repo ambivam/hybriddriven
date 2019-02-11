@@ -233,6 +233,12 @@ public class ConfigFileReader {
 		else throw new RuntimeException("baseuri is not specified in the Configuration.properties file for the Key:reportConfigPath");		
 	}
 	
+	public String getJsonFolder(){
+		String jsonfolder = properties.getProperty("jsonfolder");
+		if(jsonfolder!= null) return jsonfolder;
+		else throw new RuntimeException("jsonfolder is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+	
 	
 	
 	
