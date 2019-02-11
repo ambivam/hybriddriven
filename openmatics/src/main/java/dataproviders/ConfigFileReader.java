@@ -237,9 +237,14 @@ public class ConfigFileReader {
 		String jsonfolder = properties.getProperty("jsonfolder");
 		if(jsonfolder!= null) return jsonfolder;
 		else throw new RuntimeException("jsonfolder is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}	
+	
+	
+	public String getExcelData(){
+		String exceldata = properties.getProperty("exceldata");
+		if(exceldata!= null) return exceldata;
+		else throw new RuntimeException("exceldata is not specified in the Configuration.properties file for the Key:reportConfigPath");		
 	}
-	
-	
 	
 	
  
