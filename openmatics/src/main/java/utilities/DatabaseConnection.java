@@ -47,7 +47,7 @@ public class DatabaseConnection {
             	String dbname = ConfigFileReader.getConfigFileReader().getMySqlDatabase();
             	String user = ConfigFileReader.getConfigFileReader().getMySqlUser();
             	String password = ConfigFileReader.getConfigFileReader().getMySqlPassword();
-            	String mysqlstring = tmpmysql+host+":"+port+"/"+dbname+"?useSSL=false";
+            	String mysqlstring = tmpmysql+host+":"+port+"/"+dbname+"?useSSL=false&allowPublicKeyRetrieval=true";
             	System.out.println("mysqlstring is : "+mysqlstring);
             	conn = DriverManager.getConnection(mysqlstring,user,password);
         		dbConnections.put(mysql, conn); 
@@ -112,7 +112,7 @@ public class DatabaseConnection {
 			
 			stmt = con.createStatement();
 			rowsUpdated = stmt.executeUpdate(query);
-			System.out.println("Rows updated are : "+rowsUpdated);
+			System.out.println("Rows Inserted are : "+rowsUpdated);
 			
 			if(rowsUpdated > 0) {
 				result = true;
@@ -129,6 +129,52 @@ public class DatabaseConnection {
 		return result;
 	}
 	
+	public static boolean createTableQuery(Connection con,String query) throws Exception {
+		Statement stmt = null;
+		int tableCreated = -1;
+		boolean result = false;
+		try {
+			
+			stmt = con.createStatement();
+			stmt.executeUpdate(query);
+			result = true;
+			System.out.println("Table created successfully");
+			
+		}catch(Exception e) {	
+			System.out.println("Exception generated while creating table  ");
+			result = false;
+		}
+		finally {			
+			if(stmt!=null) {			
+				stmt.close();			
+			}
+		}
+		return result;
+	}
+	
+	
+	public static boolean dropTableQuery(Connection con,String query) throws Exception {
+		Statement stmt = null;
+		int tableCreated = -1;
+		boolean result = false;
+		try {
+			
+			stmt = con.createStatement();
+			stmt.executeUpdate(query);
+			result = true;
+			System.out.println("Table dropped successfully");
+			
+		}catch(Exception e) {	
+			System.out.println("Exception generated while dropping table ");
+			result = false;
+		}
+		finally {			
+			if(stmt!=null) {			
+				stmt.close();			
+			}
+		}
+		return result;
+	}
 	
 	public static boolean updateQuery(Connection con,String query) throws Exception {
 		Statement stmt = null;
@@ -142,8 +188,7 @@ public class DatabaseConnection {
 			
 			if(rowsUpdated > 0) {
 				result = true;
-			}
-			
+			}			
 			
 		}catch(Exception e) {			
 		}
@@ -154,6 +199,7 @@ public class DatabaseConnection {
 		}
 		return result;
 	}
+	
 	
 	
 	/*
@@ -180,4 +226,15 @@ public class DatabaseConnection {
 	 * for(String arrList : sb2) { System.out.println(arrList); } }
 	 * 
 	 */
+	
+	public static void main(String a[]) throws Exception {
+		String tableCreation = "CREATE TABLE members_code2 (NAME VARCHAR(255),ID INTEGER)";
+		
+		
+		System.out.println(DatabaseConnection.createTableQuery(DatabaseConnection.getConnection("mysql"),tableCreation));
+		
+		String tableDeletion = "DROP TABLE members_code2";
+		
+		System.out.println(DatabaseConnection.dropTableQuery(DatabaseConnection.getConnection("mysql"),tableDeletion));
+	}
 }
