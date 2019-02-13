@@ -34,7 +34,8 @@ public class DatabaseConnection {
 	public static Connection getConnection(String dbName) throws Exception {
 		//jdbc:mysql://localhost:3306/testdb"+?useSSL=false		
 		Connection conn = null;
-		String mysql = "mysql";		
+		String mysql = "mysql";	
+		String sqlserver = "sqlserver";
 				
         switch (dbName) {        
         
@@ -51,6 +52,22 @@ public class DatabaseConnection {
             	System.out.println("mysqlstring is : "+mysqlstring);
             	conn = DriverManager.getConnection(mysqlstring,user,password);
         		dbConnections.put(mysql, conn); 
+        		}
+        case "sqlserver" :
+        	if(dbConnections.get(dbName) == null) {
+        		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); 
+        		//Class.forName("net.sourceforge.jtds.jdbc.Driver"); 
+            	String tmpsqlserver = "jdbc:sqlserver://";
+            	String host = ConfigFileReader.getConfigFileReader().getSqlServerHost();
+            	String port = ConfigFileReader.getConfigFileReader().getSqlServerPort();
+            	String dbname = ConfigFileReader.getConfigFileReader().getSqlServerDatabase();
+            	String user = ConfigFileReader.getConfigFileReader().getSqlUser();
+            	String password = ConfigFileReader.getConfigFileReader().getSqlPassword();
+            	String mysqlstring = tmpsqlserver+host+";instanceName=SQLEXPRESS;databaseName=AutomationDB";
+            	//String mysqlstring = tmpsqlserver+host+":"+port+";DatabaseName="+dbname;
+            	System.out.println("sqlserverstring is : "+mysqlstring);
+            	conn = DriverManager.getConnection(mysqlstring,user,password);
+        		dbConnections.put(sqlserver, conn); 
         		}
         }        
         return dbConnections.get(dbName);
@@ -141,6 +158,7 @@ public class DatabaseConnection {
 			System.out.println("Table created successfully");
 			
 		}catch(Exception e) {	
+			
 			System.out.println("Exception generated while creating table  ");
 			result = false;
 		}
@@ -228,13 +246,33 @@ public class DatabaseConnection {
 	 */
 	
 	public static void main(String a[]) throws Exception {
-		String tableCreation = "CREATE TABLE members_code2 (NAME VARCHAR(255),ID INTEGER)";
+		/*
+		 * String tableCreation =
+		 * "CREATE TABLE members_code2 (NAME VARCHAR(255),ID INTEGER)";
+		 * 
+		 * System.out.println(DatabaseConnection.createTableQuery(DatabaseConnection.
+		 * getConnection("mysql"),tableCreation));
+		 * 
+		 * String tableDeletion = "DROP TABLE members_code2";
+		 * 
+		 * System.out.println(DatabaseConnection.dropTableQuery(DatabaseConnection.
+		 * getConnection("mysql"),tableDeletion));
+		 */
 		
-		
-		System.out.println(DatabaseConnection.createTableQuery(DatabaseConnection.getConnection("mysql"),tableCreation));
-		
-		String tableDeletion = "DROP TABLE members_code2";
-		
-		System.out.println(DatabaseConnection.dropTableQuery(DatabaseConnection.getConnection("mysql"),tableDeletion));
+		/*
+		 * String tableCreationsqlserver =
+		 * "CREATE TABLE SSMembers (NAME varchar(255),ID int)";
+		 * System.out.println(DatabaseConnection.createTableQuery(DatabaseConnection.
+		 * getConnection("sqlserver"),tableCreationsqlserver));
+		 * 
+		 * String insertSQLQuery =
+		 * "INSERT INTO SSMembers (NAME,ID) VALUES('BATHULA',100)";
+		 * 
+		 * insertQuery(getConnection("sqlserver"),insertSQLQuery);
+		 * 
+		 * String sqlselect = "SELECT * from SSMembers"; List<String> sb =
+		 * getSelectQueryResult(getConnection("sqlserver"), sqlselect); for(String
+		 * arrList : sb) { System.out.println(arrList); }
+		 */
 	}
 }

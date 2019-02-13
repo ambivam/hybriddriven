@@ -245,7 +245,46 @@ public class ConfigFileReader {
 		if(exceldata!= null) return exceldata;
 		else throw new RuntimeException("exceldata is not specified in the Configuration.properties file for the Key:reportConfigPath");		
 	}
+
+
+	public String getSqlServerHost() {
+		String sqlserverhost = properties.getProperty("sqlserverhost");
+		if(sqlserverhost!= null) return sqlserverhost;
+		else throw new RuntimeException("sqlserverhost is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+
+	public String getSqlServerPort() {
+		String sqlserverport = properties.getProperty("sqlserverport");
+		if(sqlserverport!= null) return sqlserverport;
+		else throw new RuntimeException("sqlserverport is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+
+	public String getSqlServerDatabase() {
+		String sqlserverdatabase = properties.getProperty("sqlserverdatabase");
+		if(sqlserverdatabase!= null) return sqlserverdatabase;
+		else throw new RuntimeException("sqlserverdatabase is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+
+	public String getSqlUser() {
+		String sqluser = properties.getProperty("sqluser");
+		if(sqluser!= null) return sqluser;
+		else throw new RuntimeException("sqluser is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+
+	public String getSqlPassword() {
+		String sqlpassword = properties.getProperty("sqlpassword");
+		if(sqlpassword!= null) return sqlpassword;
+		else throw new RuntimeException("sqlpassword is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+	
+	
+}
 	
 	
  
-}
+
