@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import utilities.Log;
+
 public class ConfigFileReader {
 	private Properties properties;
 	//private final String propertyFilePath= "/home/brk/BDDWS/ranger/configs/configurations.properties";
@@ -279,6 +281,51 @@ public class ConfigFileReader {
 		String sqlpassword = properties.getProperty("sqlpassword");
 		if(sqlpassword!= null) return sqlpassword;
 		else throw new RuntimeException("sqlpassword is not specified in the Configuration.properties file for the Key:reportConfigPath");		
+	}
+
+
+	public String getSqlServerDriver() {
+		String sqlserverdriver = properties.getProperty("sqlserverdriver");
+		if(sqlserverdriver!= null) 
+		{
+			Log.info("SQLServerDriver property from properties files is :"+sqlserverdriver);
+			return sqlserverdriver;
+		}
+		else 
+		{ 
+			Log.error("SQLServerDriver property in properties file is not found");
+			return (sqlserverdriver = null);
+		}
+	}
+
+
+	public String getMySqlServer() {
+		String mysqlserver = properties.getProperty("mysqlserver");
+		if(mysqlserver!= null) 
+		{
+			Log.info("mysqlserver property from properties files is : "+mysqlserver);
+			return mysqlserver;
+		}
+		else 
+		{ 
+			Log.error("mysqlserver property in properties file is not found");
+			return (mysqlserver = null);
+		}
+	}
+
+
+	public String getSqlServer() {
+		String sqlserver = properties.getProperty("sqlserver");
+		if(sqlserver!= null) 
+		{
+			Log.info("sqlserver property from properties files is : "+sqlserver);
+			return sqlserver;
+		}
+		else 
+		{ 
+			Log.error("sqlserver property in properties file is not found");
+			return (sqlserver = null);
+		}
 	}
 
 	
