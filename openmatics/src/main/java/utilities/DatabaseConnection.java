@@ -23,6 +23,14 @@ public class DatabaseConnection {
 		
 	}
 	
+	/*
+	 * ****************************************************************************** 
+	 * Name : getConnection 
+	 * Parameters : dbname (Database Name) 
+	 * Purpose : To establish the connection with the specified database
+	 * ******************************************************************************
+	*/
+	
 	public static Connection getConnection(String dbName) throws Exception {
 		Connection conn = null;
 		String mysql = ConfigFileReader.getConfigFileReader().getMySqlServer();
@@ -82,7 +90,13 @@ public class DatabaseConnection {
         	return dbConnections.get(dbName);
 		}
 	
-	//*************************************************************************************************************	
+	/*
+	 * ****************************************************************************** 
+	 * Name : getSelectQueryResult 
+	 * Parameters : con (Connection instance) ,query(select sql query string)
+	 * Purpose : To return the list of selected rows filterd by selected select query
+	 * ******************************************************************************
+	*/
 	public static List<String> getSelectQueryResult(Connection con,String query)  {
 		
 		
@@ -152,7 +166,13 @@ public class DatabaseConnection {
 		return list;
 	}
 	
-	//*************************************************************************************************************	
+	/*
+	 * ****************************************************************************** 
+	 * Name : insertQuery 
+	 * Parameters : con (Connection instance) ,query(Insert sql query string)
+	 * Purpose : To insert the record specified in query string
+	 * ******************************************************************************
+	*/	
 	
 	public static boolean insertQuery(Connection con,String query) {
 		Statement stmt = null;
@@ -186,7 +206,13 @@ public class DatabaseConnection {
 		return result;
 	}
 	
-	//*************************************************************************************************************	
+	/*
+	 * ****************************************************************************** 
+	 * Name : createTableQuery 
+	 * Parameters : con (Connection instance) ,query(Create table sql query string)
+	 * Purpose : To create the table specified in query string
+	 * ******************************************************************************
+	*/	
 	
 	public static boolean createTableQuery(Connection con,String query) {
 		Statement stmt = null;
@@ -221,7 +247,13 @@ public class DatabaseConnection {
 		return result;
 	}
 	
-	//*************************************************************************************************************	
+	/*
+	 * ****************************************************************************** 
+	 * Name : dropTableQuery 
+	 * Parameters : con (Connection instance) ,query(Drop table sql query string)
+	 * Purpose : To drop the table specified in query string
+	 * ******************************************************************************
+	*/	
 	
 	public static boolean dropTableQuery(Connection con,String query)  {
 		Statement stmt = null;		
@@ -255,7 +287,13 @@ public class DatabaseConnection {
 		return result;
 	}
 	
-	//*************************************************************************************************************	
+	/*
+	 * ****************************************************************************** 
+	 * Name : updateQuery 
+	 * Parameters : con (Connection instance) ,query(update sql query string)
+	 * Purpose : To update the record specified in query string
+	 * ******************************************************************************
+	*/		
 	
 	public static boolean updateQuery(Connection con,String query)  {
 		Statement stmt = null;
