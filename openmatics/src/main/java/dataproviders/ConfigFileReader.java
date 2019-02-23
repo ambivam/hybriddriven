@@ -327,8 +327,216 @@ public class ConfigFileReader {
 			return (sqlserver = null);
 		}
 	}
-
 	
+	
+	public String getTauriEnvironmentFile() {
+		String TauriEnvironmentFile = properties.getProperty("TAURI_ENVIRONMENT_FILE");
+		if(TauriEnvironmentFile!= null) 
+		{
+			Log.info("TauriEnvironmentFile property from properties files is : "+TauriEnvironmentFile);
+			return TauriEnvironmentFile;
+		}
+		else 
+		{ 
+			Log.error("TauriEnvironmentFile property in properties file is not found");
+			return (TauriEnvironmentFile = null);
+		}
+	}
+	
+	
+	
+	public String getGrantType() {
+		String GrantType = properties.getProperty("GRANT_TYPE");
+		if(GrantType!= null) 
+		{
+			Log.info("TauriEnvironmentFile property from properties files is : "+GrantType);
+			return GrantType;
+		}
+		else 
+		{ 
+			Log.error("GrantType property in properties file is not found");
+			return (GrantType = null);
+		}
+	}
+	
+	
+	public String getAssetResource() {
+		String AssetResource = properties.getProperty("ASSET_RESOURCE");
+		if(AssetResource!= null) 
+		{
+			Log.info("AssetResource property from properties files is : "+AssetResource);
+			return AssetResource;
+		}
+		else 
+		{ 
+			Log.error("AssetResource property in properties file is not found");
+			return (AssetResource = null);
+		}
+	}
+	
+	
+	public String getClientResource() {
+		String ClientResource = properties.getProperty("CLIENT_RESOURCE");
+		if(ClientResource!= null) 
+		{
+			Log.info("ClientResource property from properties files is : "+ClientResource);
+			return ClientResource;
+		}
+		else 
+		{ 
+			Log.error("ClientResource property in properties file is not found");
+			return (ClientResource = null);
+		}
+	}
+	
+	
+	public String getAuthorizationContentType() {
+		String AuthorizationContentType = properties.getProperty("AUTHORIZATION_CONTENT_TYPE");
+		if(AuthorizationContentType!= null) 
+		{
+			Log.info("AuthorizationContentType property from properties files is : "+AuthorizationContentType);
+			return AuthorizationContentType;
+		}
+		else 
+		{ 
+			Log.error("AuthorizationContentType property in properties file is not found");
+			return (AuthorizationContentType = null);
+		}
+	}
+	
+	
+	public String getLoginMicrosoft() {
+		String LoginMicrosoft = properties.getProperty("LOGIN_MICROSOFT");
+		if(LoginMicrosoft!= null) 
+		{
+			Log.info("LoginMicrosoft property from properties files is : "+LoginMicrosoft);
+			return LoginMicrosoft;
+		}
+		else 
+		{ 
+			Log.error("LoginMicrosoft property in properties file is not found");
+			return (LoginMicrosoft = null);
+		}
+	}
+
+
+	public String getDeviceResource() {
+		String DeviceResource = properties.getProperty("DEVICE_RESOURCE");
+		if(DeviceResource!= null) 
+		{
+			Log.info("DeviceResource property from properties files is : "+DeviceResource);
+			return DeviceResource;
+		}
+		else 
+		{ 
+			Log.error("DeviceResource property in properties file is not found");
+			return (DeviceResource = null);
+		}
+	}
+	
+	
+	public String getBaseUrl() {
+		String BaseUrl = properties.getProperty("BASE_URL");
+		if(BaseUrl!= null) 
+		{
+			Log.info("BaseUrl property from properties files is : "+BaseUrl);
+			return BaseUrl;
+		}
+		else 
+		{ 
+			Log.error("BaseUrl property in properties file is not found");
+			return (BaseUrl = null);
+		}
+	}
+	
+	
+	public String getDeviceUrl() {
+		String DeviceUrl = properties.getProperty("DEVICE_URL");
+		if(DeviceUrl!= null) 
+		{
+			Log.info("DeviceUrl property from properties files is : "+DeviceUrl);
+			return DeviceUrl;
+		}
+		else 
+		{ 
+			Log.error("DeviceUrl property in properties file is not found");
+			return (DeviceUrl = null);
+		}
+	}
+	
+	
+	public String getDevices() {
+		String Devices = properties.getProperty("DEVICES");
+		if(Devices!= null) 
+		{
+			Log.info("Devices property from properties files is : "+Devices);
+			return Devices;
+		}
+		else 
+		{ 
+			Log.error("DeviceUrl property in properties file is not found");
+			return (Devices = null);
+		}
+	}
+	
+	
+	public String getCookie() {
+		String cookie = properties.getProperty("COOKIE");
+		if(cookie!= null) 
+		{
+			Log.info("cookie property from properties files is : "+cookie);
+			return cookie;
+		}
+		else 
+		{ 
+			Log.error("cookie property in properties file is not found");
+			return (cookie = null);
+		}
+	}
+	
+	
+	public String getContentType() {
+		String ContentType = properties.getProperty("CONTENT_TYPE");
+		if(ContentType!= null) 
+		{
+			Log.info("ContentType property from properties files is : "+ContentType);
+			return ContentType;
+		}
+		else 
+		{ 
+			Log.error("ContentType property in properties file is not found");
+			return (ContentType = null);
+		}
+	}
+
+	public String getAssetUrl() {
+		String AssetUrl = properties.getProperty("ASSET_URL");
+		if(AssetUrl!= null) 
+		{
+			Log.info("AssetUrl property from properties files is : "+AssetUrl);
+			return AssetUrl;
+		}
+		else 
+		{ 
+			Log.error("AssetUrl property in properties file is not found");
+			return (AssetUrl = null);
+		}
+	}
+	
+	
+	public String getAssets() {
+		String Assets = properties.getProperty("ASSETS");
+		if(Assets!= null) 
+		{
+			Log.info("Assets property from properties files is : "+Assets);
+			return Assets;
+		}
+		else 
+		{ 
+			Log.error("Assets property in properties file is not found");
+			return (Assets = null);
+		}
+	}
 	
 }
 	
