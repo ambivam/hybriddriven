@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -359,6 +361,29 @@ public class RestAssuredUtilities {
 		
 	}
 	
+	static public String getUsertoken(String authorizationURL,String serviceName) {		
+		
+		Map<String,String> form = new HashMap<String,String>();
+		form.put("auth_url", authorizationURL);
+		form.put("grant_type", ConfigFileReader.getConfigFileReader().getGrantType());
+		form.put("client_id", readJSONFile(ConfigFileReader.getConfigFileReader().getTauriEnvironmentFile()).get("client_aad_id").toString());
+		form.put("client_secret", readJSONFile(ConfigFileReader.getConfigFileReader().getTauriEnvironmentFile()).get("client_aad_sercet").toString());
+		form.put("resource", ConfigFileReader.getConfigFileReader().getClientResource());
+		form.put("Content-Type", ConfigFileReader.getConfigFileReader().getAuthorizationContentType());
+		return getToken(form,serviceName);
+		
+	}
+	
+	static public RequestSpecification setFormParameters(RequestSpecification httpRequest,Map<String,String> form) {
+		httpRequest.formParam("grant_type",form.get("grant_type"));
+		httpRequest.formParam("client_id",form.get("client_id"));
+		httpRequest.formParam("client_secret",form.get("client_secret"));
+		httpRequest.formParam("resource",form.get("resource"));
+		httpRequest.header("Content-Type", form.get("Content-Type"));
+		
+		return httpRequest;
+	}
+	
 	static public String getToken(Map<String,String> form,String servicename) {
 		Response response = null;
 		String access_token = null;
@@ -367,28 +392,17 @@ public class RestAssuredUtilities {
 		
 		switch(servicename) {
 		case "device":
-			httpRequest.formParam("grant_type",form.get("grant_type"));
-			httpRequest.formParam("client_id",form.get("client_id"));
-			httpRequest.formParam("client_secret",form.get("client_secret"));
-			httpRequest.formParam("resource",form.get("resource"));
-			httpRequest.header("Content-Type", form.get("Content-Type"));
+			setFormParameters(httpRequest,form);
 			break;	
 		case "asset":
-			httpRequest.formParam("grant_type",form.get("grant_type"));
-			httpRequest.formParam("client_id",form.get("client_id"));
-			httpRequest.formParam("client_secret",form.get("client_secret"));
-			httpRequest.formParam("resource",form.get("resource"));
-			httpRequest.header("Content-Type", form.get("Content-Type"));
+			setFormParameters(httpRequest,form);
 			break;
 		case "client":
-			httpRequest.formParam("grant_type",form.get("grant_type"));
-			httpRequest.formParam("client_id",form.get("client_id"));
-			httpRequest.formParam("client_secret",form.get("client_secret"));
-			httpRequest.formParam("resource",form.get("resource"));
-			httpRequest.header("Content-Type", form.get("Content-Type"));
-			break;
-			
-		
+			setFormParameters(httpRequest,form);
+			break;		
+		case "user":
+			setFormParameters(httpRequest,form);
+			break;		
 		}
 		
 		response = httpRequest.request(Method.POST);	
@@ -417,6 +431,9 @@ public class RestAssuredUtilities {
 			break;
 		case "device":
 			token = getDevicetoken(tauri_authorization_url,serviceName);
+			break;
+		case "user":
+			token = getUsertoken(tauri_authorization_url,serviceName);
 			break;
 			
 		}
@@ -458,6 +475,85 @@ public class RestAssuredUtilities {
 		
 	}
 	
+	static public JSONObject CreateAsset()	{
+		
+		JSONObject CreateAssetTemplate = readJSONFile(ConfigFileReader.getConfigFileReader().getCreateAssetJson());
+		JSONObject CreateAssetData = readJSONFile(ConfigFileReader.getConfigFileReader().getCreateAssetData());	
+		
+		CreateAssetTemplate.put("name",CreateAssetData.get("name").toString() + getRandomNumber());
+		CreateAssetTemplate.put("description",CreateAssetData.get("description").toString() + getRandomNumber());		
+		List<String> temp = (List<String>) CreateAssetTemplate.get("clientIdList");
+		
+		String updatedListVal = (String) CreateAssetData.get("clientIdList");
+		System.out.println("The list value is : "+temp.get(0));
+		temp.set(0, updatedListVal);
+		CreateAssetTemplate.put("clientIdList",temp );
+		
+		return CreateAssetTemplate;
+	}
+	
+	static public JSONObject CreateUser()	{
+		
+		JSONObject CreateUserTemplate = readJSONFile(ConfigFileReader.getConfigFileReader().getCreateUserJson());
+		JSONObject CreateUserData = readJSONFile(ConfigFileReader.getConfigFileReader().getCreateUserData());	
+		CreateUserTemplate.put("displayName",CreateUserData.get("displayName").toString() + getRandomNumber());
+		System.out.println(" Createeeeeee userrrrrrrrrrrr templateeeeeee is :"+CreateUserTemplate.toJSONString());
+		return CreateUserTemplate;
+	}
+	
+	static public long getRandomNumber() {
+		Random r = new Random();
+		int low = 10;
+		int high = 100;
+		int result = r.nextInt(high-low) + low;
+		return result;
+	}
+	
+	static public String Post(String url,String token,String servicename) {
+		
+		RestAssured.baseURI = url;
+		RequestSpecification httpRequest = RestAssured.given();
+		JSONObject JsonService = new JSONObject();
+		//*****************************************************************************
+		switch(servicename) {
+		case "asset":
+			
+			JsonService = CreateAsset();
+			break;
+		case "user":
+			JsonService = CreateUser();
+			break;
+		}		
+		//*****************************************************************************
+		httpRequest.header("authorization", "Bearer "+token);
+		httpRequest.header("Content-Type", "application/json");		
+		httpRequest.body(JsonService.toJSONString());		
+		Response getResponse = httpRequest.request(Method.POST);
+		return getResponse.body().asString();
+		//################################################################################				
+		
+		/*
+		 * Map<String,String> tempMap = getResponse.getCookies(); Set<String> tempSet =
+		 * tempMap.keySet(); StringBuilder crook = new StringBuilder(); for(String i :
+		 * tempSet) { crook.append(i+"="+tempMap.get(i)+";"); } String actual =
+		 * crook.toString(); actual = actual.substring(0, actual.length() - 1);
+		 * System.out.println("The crook is : "+actual); RequestSpecification
+		 * httpRequest2 = RestAssured.given(); httpRequest2.header("authorization",
+		 * "Bearer "+token); httpRequest2.header("cookie", actual); Response
+		 * getResponse2 = httpRequest2.request(Method.GET);
+		 * System.out.println("Duplicate is : "+getResponse2.getBody().asString());
+		 * return getResponse2.jsonPath().getJsonObject("$");
+		 */
+		//################################################################################
+		
+		
+		//***************************************************************************
+		
+		
+	}
+	
+	
+	
 	static public JsonPath GetServices(String servicename) {
 		
 		String base_url = ConfigFileReader.getConfigFileReader().getBaseUrl();
@@ -479,11 +575,41 @@ public class RestAssuredUtilities {
 				System.out.println("The asset url is :"+urlAsset);
 				getJSON = Get(urlAsset,token);
 				break;
-			
+			case "client":
+				String ClientsUrl = ConfigFileReader.getConfigFileReader().getClientsUrl();
+				String Clients = ConfigFileReader.getConfigFileReader().getClients();
+				String urlClient = base_url +"/"+ClientsUrl+"/"+Clients;
+				System.out.println("The asset url is :"+urlClient);
+				getJSON = Get(urlClient,token);
+				break;
 				
 		}
 		
 		return getJSON;
+	}
+	
+	static public String CreateServices(String servicename) {
+		String CreateServiceString = null;
+		String base_url = ConfigFileReader.getConfigFileReader().getBaseUrl();
+		String token = getAuthorizationToken(servicename);
+		switch(servicename) {
+		case "asset":
+			String AssetsUrl = ConfigFileReader.getConfigFileReader().getAssetUrl();
+			String Assets = ConfigFileReader.getConfigFileReader().getAssets();
+			String urlAsset = base_url +"/"+AssetsUrl+"/"+Assets;
+			System.out.println("The asset url is :"+urlAsset);
+			CreateServiceString =  Post(urlAsset,token,servicename);
+			break;
+		case "user":
+			String ClientUrl = ConfigFileReader.getConfigFileReader().getClientsUrl();
+			String Users = ConfigFileReader.getConfigFileReader().getUsers();
+			String urlUser = base_url +"/"+ClientUrl+"/"+Users+"/";
+			System.out.println("The Users url is :"+urlUser);
+			CreateServiceString =  Post(urlUser,token,servicename);
+			break;
+		}
+		
+		return CreateServiceString;
 	}
 	
 	
@@ -504,7 +630,10 @@ public class RestAssuredUtilities {
 		  
 		 
 		
-		System.out.println("JSONObject of device is "+GetServices("asset").getJsonObject("assetType.name"));
+		//System.out.println("JSONObject of device is "+GetServices("client").getJsonObject("address.street"));
+		
+		
+		System.out.println("Create user services are : "+CreateServices("user"));
 		
 		  
 		  

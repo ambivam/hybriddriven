@@ -538,6 +538,109 @@ public class ConfigFileReader {
 		}
 	}
 	
+	
+	public String getClientsUrl() {
+		String ClientsUrl = properties.getProperty("CLIENT_URL");
+		if(ClientsUrl!= null) 
+		{
+			Log.info("ClientsUrl property from properties files is : "+ClientsUrl);
+			return ClientsUrl;
+		}
+		else 
+		{ 
+			Log.error("ClientsUrl property in properties file is not found");
+			return (ClientsUrl = null);
+		}
+	}
+	
+	public String getClients() {
+		String Clients = properties.getProperty("CLIENTS");
+		if(Clients!= null) 
+		{
+			Log.info("Clients property from properties files is : "+Clients);
+			return Clients;
+		}
+		else 
+		{ 
+			Log.error("Clients property in properties file is not found");
+			return (Clients = null);
+		}
+	}
+	
+	
+	public String getCreateAssetJson() {
+		String CreateAssetJson = properties.getProperty("CREATE_ASSET_JSON");
+		if(CreateAssetJson!= null) 
+		{
+			Log.info("CreateAssetJson property from properties files is : "+CreateAssetJson);
+			return CreateAssetJson;
+		}
+		else 
+		{ 
+			Log.error("CreateAssetJson property in properties file is not found");
+			return (CreateAssetJson = null);
+		}
+	}
+	
+	public String getCreateAssetData() {
+		String CreateAssetData = properties.getProperty("CREATE_ASSET_DATA");
+		if(CreateAssetData!= null) 
+		{
+			Log.info("CreateAssetData property from properties files is : "+CreateAssetData);
+			return CreateAssetData;
+		}
+		else 
+		{ 
+			Log.error("CreateAssetData property in properties file is not found");
+			return (CreateAssetData = null);
+		}
+	}
+
+
+	public String getUsers() {
+		String Users = properties.getProperty("USERS");
+		if(Users!= null) 
+		{
+			Log.info("Users property from properties files is : "+Users);
+			return Users;
+		}
+		else 
+		{ 
+			Log.error("Users property in properties file is not found");
+			return (Users = null);
+		}
+	}
+
+
+	public String getCreateUserJson() {
+		String CreateUserJson = properties.getProperty("CREATE_USER_JSON");
+		if(CreateUserJson!= null) 
+		{
+			Log.info("CreateUserJson property from properties files is : "+CreateUserJson);
+			return CreateUserJson;
+		}
+		else 
+		{ 
+			Log.error("CreateUserJson property in properties file is not found");
+			return (CreateUserJson = null);
+		}
+	}
+	
+	public String getCreateUserData() {
+		String CreateUserData = properties.getProperty("CREATE_USER_DATA");
+		if(CreateUserData!= null) 
+		{
+			Log.info("CreateUserData property from properties files is : "+CreateUserData);
+			return CreateUserData;
+		}
+		else 
+		{ 
+			Log.error("CreateUserData property in properties file is not found");
+			return (CreateUserData = null);
+		}
+	}
+	
+	
 }
 	
 	

@@ -1,0 +1,10 @@
+{
+		"name": "test def 1234 080219-2",
+		"description": "deffleet 123",
+		
+		"assetType": {
+			"name": "VEHICLE_ASSET_TYPE"
+						
+		},
+		"clientIdList": ["49a3bc07-2309-48df-8959-732297707e65"]
+	}
