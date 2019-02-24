@@ -552,6 +552,21 @@ public class RestAssuredUtilities {
 		
 	}
 	
+	static public String Delete(String url,String token) {
+			String deleteMessage = null;
+			RestAssured.baseURI = url;
+			RequestSpecification httpRequest = RestAssured.given();
+			httpRequest.header("authorization", "Bearer "+token);
+			httpRequest.header("Content-Type", "application/json");		
+			Response getResponse = httpRequest.request(Method.DELETE);
+			System.out.println("The delete message body is : "+getResponse.getBody().asString());
+			System.out.println("The delete message is : "+getResponse.getStatusLine() +" **** "+getResponse.statusCode());
+			
+			deleteMessage = "The deleted service name is "+getResponse.jsonPath().get("name") +" and the id is " + getResponse.jsonPath().get("id");
+			
+			return deleteMessage;
+	}
+	
 	
 	
 	static public JsonPath GetServices(String servicename) {
@@ -613,6 +628,31 @@ public class RestAssuredUtilities {
 	}
 	
 	
+	static public String DeleteServices(String servicename,String id) {
+		String DeleteServiceString = null;
+		String base_url = ConfigFileReader.getConfigFileReader().getBaseUrl();
+		String token = getAuthorizationToken(servicename);
+		switch(servicename) {
+		case "asset":
+			String AssetsUrl = ConfigFileReader.getConfigFileReader().getAssetUrl();
+			String Assets = ConfigFileReader.getConfigFileReader().getAssets();
+			String urlAssetDelete = base_url +"/"+AssetsUrl+"/"+Assets+"/"+id;
+			System.out.println("The asset url is :"+urlAssetDelete);
+			DeleteServiceString =  Delete(urlAssetDelete,token);
+			break;
+		case "user":
+			String UsersUrl = ConfigFileReader.getConfigFileReader().getClientsUrl();
+			String Users = ConfigFileReader.getConfigFileReader().getUsers();
+			String urlUserDelete = base_url +"/"+UsersUrl+"/"+Users+"/"+id;
+			System.out.println("The asset url is :"+urlUserDelete);
+			DeleteServiceString =  Delete(urlUserDelete,token);
+			break;
+		}
+		
+		return DeleteServiceString;
+	}
+	
+	
 	
 	
 	public static void main(String a[]) {
@@ -632,8 +672,8 @@ public class RestAssuredUtilities {
 		
 		//System.out.println("JSONObject of device is "+GetServices("client").getJsonObject("address.street"));
 		
-		
-		System.out.println("Create user services are : "+CreateServices("user"));
+		 String createUser =  CreateServices("user");
+		System.out.println("Delete user services are : "+DeleteServices("user",createUser));
 		
 		  
 		  
